@@ -12,6 +12,8 @@
   CED_2021,POA_2021,TR_2021,SUA_2021,UCL_2021,SOS_2021,SOSR_2021).
   - See [ASGS 2021](https://www.abs.gov.au/statistics/standards/australian-statistical-geography-standard-asgs-edition-3/jul2021-jun2026/access-and-downloads/digital-boundary-files)
 - Added [Melbourne CLUE blocks](https://data.melbourne.vic.gov.au/pages/clue/) to region mapping.
+- Add `clampToGround` to `KmlCatalogItemTraits` (defaults to `true`) - this is now passed to `KmlDataSource.load`. Terria no longer clamps polygon geometries to terrain manually. All clamping logic is now handled by Cesium.
+- Add `dataSourceUri` to `KmlCatalogItemTraits` - Overrides the url to use for resolving relative links and other KML network features
 - [The next improvement]
 
 #### 8.3.7 - 2023-10-26
@@ -26,8 +28,6 @@
 - Fix splitter for `GeoJsonMixin` (lines and polygon features only)
 - Fix share links with picked features from `ProtomapsImageryProvider`
 - Add `hideDefaultDescription` to `CatalogMemberTraits` - if true, then no generic default description will be shown when `description` is empty.
-- Add `clampPolygonsToGround` to `KmlCatalogItemTraits` (defaults to true`)
-- [The next improvement]
 - Added on screen attribution and Google logo for Google Photorealistic 3D Tiles.
 - Add `hideDefaultDescription` to `CatalogMemberTraits` - if true, then no generic default description will be shown when `description` is empty.
 

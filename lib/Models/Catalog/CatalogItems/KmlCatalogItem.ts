@@ -56,30 +56,34 @@ class KmlCatalogItem
 
   protected async forceLoadMapItems(): Promise<void> {
     try {
-      const kmlLoadInput = await new Promise<
-        string | Resource | Document | Blob
-      >((resolve) => {
-        if (isDefined(this.kmlString)) {
-          const parser = new DOMParser();
-          resolve(parser.parseFromString(this.kmlString, "text/xml"));
-        } else if (isDefined(this._kmlFile)) {
-          if (this._kmlFile.name && this._kmlFile.name.match(kmzRegex)) {
-            resolve(this._kmlFile);
-          } else {
-            resolve(readXml(this._kmlFile));
-          }
-        } else if (isDefined(this.url)) {
-          resolve(proxyCatalogItemUrl(this, this.url));
+      let kmlLoadInput: undefined | string | Resource | Document | Blob =
+        undefined;
+
+      if (isDefined(this.kmlString)) {
+        const parser = new DOMParser();
+        kmlLoadInput = parser.parseFromString(this.kmlString, "text/xml");
+      } else if (isDefined(this._kmlFile)) {
+        if (this._kmlFile.name && this._kmlFile.name.match(kmzRegex)) {
+          kmlLoadInput = this._kmlFile;
         } else {
-          throw networkRequestError({
-            sender: this,
-            title: i18next.t("models.kml.unableToLoadItemTitle"),
-            message: i18next.t("models.kml.unableToLoadItemMessage")
-          });
+          kmlLoadInput = await readXml(this._kmlFile);
         }
-      });
+      } else if (isDefined(this.url)) {
+        kmlLoadInput = proxyCatalogItemUrl(this, this.url);
+      }
+
+      if (!kmlLoadInput) {
+        throw networkRequestError({
+          sender: this,
+          title: i18next.t("models.kml.unableToLoadItemTitle"),
+          message: i18next.t("models.kml.unableToLoadItemMessage")
+        });
+      }
       this._dataSource = await KmlDataSource.load(kmlLoadInput, {
-        clampToGround: this.clampToGround
+        clampToGround: this.clampToGround,
+        sourceUri: this.dataSourceUri
+          ? proxyCatalogItemUrl(this, this.dataSourceUri, "1d")
+          : undefined
       } as any);
     } catch (e) {
       throw networkRequestError(
