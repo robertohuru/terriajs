@@ -1,7 +1,30 @@
 # Change Log
 
-#### next release (8.3.8)
+#### next release (8.4.1)
 
+- Fix a bug where `DragPoints` was interfering with pedstrian mode mouse movements.
+- [The next improvement]
+
+#### 8.4.0 - 2023-12-01
+
+- **Breaking change:** Replaced `node-sass` with (dart) `sass`
+  - You will need to update your `TerriaMap` to use `sass` instead of `node-sass`.
+- Added `apiColumns` to `ApiTableCatalogItem` - this can now be used to specify `responseDataPath` per table column.
+- `ArcGisMapServerCatalogItem` will now use "pre-cached tiles" if available if no (or all) `layers` are specified.
+
+#### 8.3.9 - 2023-11-24
+
+- **Breaking change:** new Search Provider model
+  - Added SearchProviderMixin to connect searchProviders with a model system
+  - Created a simple base Mixin (`SearchProviderMixin`) to attach SearchProviders to the Model system and enable easier creation of new search providers.
+  - Made SearchProviders configurable from `config.json`.
+  - See [0011-configurable-search-providers ADR](./architecture/0011-configurable-search-providers.md) and [Search providers customization](./doc/customizing/search-providers.md) for more details
+- Make all icons in `CatalogGroup` black by default and white when a catalog group is focused, selected or hovered over. Improve lock icon position in workbench.
+
+#### 8.3.8 - 2023-11-15
+
+- Fix maximum call stack size exceeded on Math.min/max when creating Charts
+- Fix boolean flag in `MyDataTab` displaying number
 - Remove `jsx-control-statements` dependency
 - Fix WMS nested group IDs - nested groups with the same name were not being created
 - WMS `isEsri` default value will now check for case-insensitive `mapserver/wmsserver` (instead of `MapServer/WMSServer`)
@@ -15,6 +38,10 @@
 - Add `clampToGround` to `KmlCatalogItemTraits` (defaults to `true`) - this is now passed to `KmlDataSource.load`. Terria no longer clamps polygon geometries to terrain manually. All clamping logic is now handled by Cesium.
 - Add `dataSourceUri` to `KmlCatalogItemTraits` - Overrides the url to use for resolving relative links and other KML network features
 - [The next improvement]
+- Fix WMS `GetMap`/`GetFeatureInfo` requests not having `styles` parameter (will use empty string instead of `undefined`)
+- Add CesiumIon geocoder
+- `CatalogGroup` will now not show members until loaded
+- Add `GetTimeseries` support to `WebMapServiceCatalogItem`. This adds a new `supportsGetTimeseries` trait, which when true will replace `GetFeatureInfo` with `GetTimeseries` requests. It will also change `info_format` to `text/csv`, and show a chart in the feature info panel. Servers which advertise `GetTimeseries` capability will have this trait set to true by default. `GetTimeseries` requests will have `time = ""`.
 
 #### 8.3.7 - 2023-10-26
 
