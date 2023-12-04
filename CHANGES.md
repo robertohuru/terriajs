@@ -3,6 +3,8 @@
 #### next release (8.4.1)
 
 - Fix a bug where `DragPoints` was interfering with pedstrian mode mouse movements.
+- Add `clampToGround` to `KmlCatalogItemTraits` (defaults to `true`) - this is now passed to `KmlDataSource.load`. Terria no longer clamps polygon geometries to terrain manually. All clamping logic is now handled by Cesium.
+- Add `dataSourceUri` to `KmlCatalogItemTraits` - Overrides the url to use for resolving relative links and other KML network features
 - [The next improvement]
 
 #### 8.4.0 - 2023-12-01
@@ -35,9 +37,6 @@
   CED_2021,POA_2021,TR_2021,SUA_2021,UCL_2021,SOS_2021,SOSR_2021).
   - See [ASGS 2021](https://www.abs.gov.au/statistics/standards/australian-statistical-geography-standard-asgs-edition-3/jul2021-jun2026/access-and-downloads/digital-boundary-files)
 - Added [Melbourne CLUE blocks](https://data.melbourne.vic.gov.au/pages/clue/) to region mapping.
-- Add `clampToGround` to `KmlCatalogItemTraits` (defaults to `true`) - this is now passed to `KmlDataSource.load`. Terria no longer clamps polygon geometries to terrain manually. All clamping logic is now handled by Cesium.
-- Add `dataSourceUri` to `KmlCatalogItemTraits` - Overrides the url to use for resolving relative links and other KML network features
-- [The next improvement]
 - Fix WMS `GetMap`/`GetFeatureInfo` requests not having `styles` parameter (will use empty string instead of `undefined`)
 - Add CesiumIon geocoder
 - `CatalogGroup` will now not show members until loaded
